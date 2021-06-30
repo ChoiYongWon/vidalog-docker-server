@@ -36,7 +36,7 @@ jobs:
       - attach_workspace:
           at: ~/vidalog
       - run: |
-          docker build -t yongwon0824/vidalog-backend:latest
+          docker build -t yongwon0824/vidalog-backend:latest .
           docker push yongwon0824/vidalog-backend:latest
   deploy:
     machine: true
