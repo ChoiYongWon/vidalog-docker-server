@@ -31,7 +31,7 @@ jobs:
           at: ~/vidalog
       - docker/check
       - docker/build:
-          image: node:latest
+          image: node
           tag: latest
       - docker/push:
           image: yongwon0824/vidalog-backend
