@@ -1,0 +1,63 @@
+version: 2.1
+
+jobs:
+
+  nest-build:
+    docker:
+      - image: node:latest
+    working_directory: ~/vidalog
+    steps:
+      - checkout
+      - run: ls
+      - run: npm i -g @nestjs/cli
+      - run: yarn
+      - run: ls
+      - run: pwd
+      - run: yarn run build
+      - run: ls
+      - persist_to_workspace:
+          root: ~/vidalog
+          paths:
+            - dist
+            - node_modules
+      - run: echo "BUILD SUCCESS"
+  docker-build-and-push:
+    executor: docker/docker
+    working_directory: ~/vidalog
+    steps:
+      - setup_remote_docker
+      - checkout
+      - attach_workspace:
+          at: ~/vidalog
+      - docker/check
+      - docker/build:
+          image: yongwon0824/vidalog-back
+          tag: latest
+      - docker/push:
+          image: yongwon0824/vidalog-back
+          tag: latest
+      - run: echo "SUCCESS"
+  deploy:
+    machine: true
+    steps:
+      - checkout
+      - run: ssh ec2-user@54.180.166.3 ./deploy.sh
+  
+orbs:
+  docker: circleci/docker@1.6.0
+  
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - nest-build
+      - docker-build-and-push:
+          requires:
+            - nest-build
+          context:
+            - DOCKER
+      - deploy:
+          requires:
+            - docker-build-and-push
+          context:
+            - AWS
