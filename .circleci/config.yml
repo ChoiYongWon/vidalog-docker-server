@@ -31,10 +31,10 @@ jobs:
           at: ~/vidalog
       - docker/check
       - docker/build:
-          image: yongwon0824/vidalog-back
+          image: yongwon0824/vidalog-backend
           tag: latest
       - docker/push:
-          image: yongwon0824/vidalog-back
+          image: yongwon0824/vidalog-backend
           tag: latest
       - run: echo "SUCCESS"
   deploy:
