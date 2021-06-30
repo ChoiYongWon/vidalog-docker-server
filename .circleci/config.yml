@@ -24,7 +24,7 @@ jobs:
   docker-build-and-push:
     docker:
       - image: node:latest
-        auto:
+        auth:
           username: $DOCKER_LOGIN
           password: $DOCKER_PASSWORD
     working_directory: ~/vidalog
