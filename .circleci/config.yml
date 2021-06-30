@@ -24,9 +24,6 @@ jobs:
   docker-build-and-push:
     docker:
       - image: cimg/node:12.16
-        auth:
-          username: $DOCKER_LOGIN
-          password: $DOCKER_PASSWORD
     working_directory: ~/vidalog
     steps:
       - checkout
