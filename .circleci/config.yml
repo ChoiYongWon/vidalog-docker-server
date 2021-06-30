@@ -23,7 +23,7 @@ jobs:
       - run: echo "BUILD SUCCESS"
   docker-build-and-push:
     docker:
-      - image: node:latest
+      - image: cimg/node:latest
         auth:
           username: $DOCKER_LOGIN
           password: $DOCKER_PASSWORD
