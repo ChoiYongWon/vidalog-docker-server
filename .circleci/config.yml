@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
 
-  nest-build:
+  vidalog-backend-build:
     docker:
       - image: node:latest
     working_directory: ~/vidalog
@@ -22,38 +22,34 @@ jobs:
             - node_modules
       - run: echo "BUILD SUCCESS"
   docker-build-and-push:
-    executor: docker/docker
+    docker:
+      - image: node:latest
+        auto:
+          username: $DOCKER_LOGIN
+          password: $DOCKER_PASSWORD
     working_directory: ~/vidalog
     steps:
-      - setup_remote_docker
       - checkout
+      - setup_remote_docker
       - attach_workspace:
           at: ~/vidalog
-      - docker/check
-      - docker/build:
-          image: node
-          tag: latest
-      - docker/push:
-          image: yongwon0824/vidalog-backend
-          tag: latest
-      - run: echo "SUCCESS"
+      - run: |
+          docker build -t yongwon0824/vidalog-backend:latest
+          docker push yongwon0824/vidalog-backend:latest
   deploy:
     machine: true
     steps:
       - checkout
       - run: ssh ec2-user@54.180.166.3 ./deploy-backend.sh
-  
-orbs:
-  docker: circleci/docker@1.6.0
-  
+
 workflows:
   version: 2.1
   build:
     jobs:
-      - nest-build
+      - vidalog-backend-build
       - docker-build-and-push:
           requires:
-            - nest-build
+            - vidalog-backend-build
           context:
             - DOCKER
       - deploy:
