@@ -30,9 +30,6 @@ jobs:
     working_directory: ~/vidalog
     steps:
       - checkout
-      - run:
-          name: Install Docker client
-          command: apk add docker-cli
       - setup_remote_docker:
           version: 19.03.13
           
