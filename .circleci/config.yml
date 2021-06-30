@@ -41,7 +41,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: ssh ec2-user@54.180.166.3 ./deploy.sh
+      - run: ssh ec2-user@54.180.166.3 ./deploy-backend.sh
   
 orbs:
   docker: circleci/docker@1.6.0
