@@ -52,8 +52,14 @@ workflows:
             - vidalog-backend-build
           context:
             - DOCKER
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - docker-build-and-push
           context:
             - AWS
+          filters:
+            branches:
+              only: master
