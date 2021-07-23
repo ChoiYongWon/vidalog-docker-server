@@ -40,7 +40,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: ssh ec2-user@54.180.166.3 ./deploy-backend.sh
+      - run: ssh ec2-user@54.180.166.3 ./vidalog/deploy-backend.sh
 
 workflows:
   version: 2.1
@@ -55,11 +55,11 @@ workflows:
           filters:
             branches:
               only: master
-#      - deploy:
-#          requires:
-#            - docker-build-and-push
-#          context:
-#            - AWS
-#          filters:
-#            branches:
-#              only: master
+      - deploy:
+          requires:
+            - docker-build-and-push
+          context:
+            - AWS
+          filters:
+            branches:
+              only: master
