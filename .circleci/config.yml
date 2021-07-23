@@ -55,11 +55,11 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy:
-          requires:
-            - docker-build-and-push
-          context:
-            - AWS
-          filters:
-            branches:
-              only: master
+#      - deploy:
+#          requires:
+#            - docker-build-and-push
+#          context:
+#            - AWS
+#          filters:
+#            branches:
+#              only: master
