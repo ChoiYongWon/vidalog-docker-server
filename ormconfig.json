@@ -1,0 +1,10 @@
+{
+  "type": "mariadb",
+  "host": "vidalog.cabrkv0blk8n.ap-northeast-2.rds.amazonaws.com",
+  "port": 3306,
+  "username": "admin",
+  "password": "vidalog10975",
+  "database": "vidalog",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true
+}
