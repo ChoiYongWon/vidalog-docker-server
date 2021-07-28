@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
+import { CreateUserDto } from '../../user/dtos/request/createUser.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,9 +16,10 @@ export class AuthController {
     return (result) ? { isValid : true } : { isValid : false }
   }
 
-  //TODO 회원가입 최종 요청시
+  //회원가입 최종 요청시
   @Post("register")
-  registerUser(): void{
-    return
+  async register(@Body() user: CreateUserDto): Promise<CreateUserDto>{
+    const result = await this.authService.registerUser(user)
+    return result
   }
 }
