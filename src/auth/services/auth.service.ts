@@ -24,7 +24,6 @@ export class AuthService {
   //유저 정보가 유효한지 확인
   async validateUser(user: LoginUserDto) {
     const userInfo = await this.userService.findOne(user.id)
-    console.log(user, userInfo)
     if(userInfo && userInfo.password===user.password){
       const {password, ...result} = user
       return result
@@ -34,8 +33,10 @@ export class AuthService {
   }
 
   async login(user: LoginUserDto):Promise<{access_token : string}>{
+    const { password, id, ...rest } = await this.userService.findOne(user.id)
     const payload = {
-      id : user.id
+      id : user.id,
+      ...rest
     }
 
     return {

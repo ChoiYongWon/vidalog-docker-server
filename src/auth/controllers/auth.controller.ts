@@ -4,6 +4,7 @@ import { CreateUserDto } from '../../user/dtos/request/createUser.dto';
 import { LoginAuthGuard } from '../guards/login-auth.guard';
 import { Public } from 'src/lib/decorators/public';
 import { LoginUserDto } from '../dtos/request/LoginUser.dto';
+import { IdValidationResponseDto } from '../dtos/response/IdValidationResponse.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +16,7 @@ export class AuthController {
 
   @Public()
   @Get("idValidation")
-  async idValidation(@Query("id") id: string) {
+  async idValidation(@Query("id") id: string): Promise<IdValidationResponseDto> {
     const result = await this.authService.isValidId(id)
     return (result) ? { isValid : true } : { isValid : false }
   }

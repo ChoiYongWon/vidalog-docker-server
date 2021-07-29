@@ -27,6 +27,11 @@ export class UserService {
     return result
   }
 
+  async findByEmail(email: string){
+    const result = await this.userRepository.findOne({email : email})
+    return result
+  }
+
   async isUserExist(id: string):Promise<boolean>{
     const userCount = await this.userRepository.count({
       id : id
