@@ -1,6 +1,9 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { CreateUserDto } from '../../user/dtos/request/createUser.dto';
+import { LoginAuthGuard } from '../guards/login-auth.guard';
+import { Public } from 'src/lib/decorators/public';
+import { LoginUserDto } from '../dtos/request/LoginUser.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -10,13 +13,21 @@ export class AuthController {
   ) {
   }
 
+  @Public()
   @Get("idValidation")
   async idValidation(@Query("id") id: string) {
     const result = await this.authService.isValidId(id)
     return (result) ? { isValid : true } : { isValid : false }
   }
 
-  //회원가입 최종 요청시
+  @Public()
+  @UseGuards(LoginAuthGuard)
+  @Post("login")
+  async login(@Request() req){
+    return await this.authService.login(req.user)
+  }
+
+  @Public()
   @Post("register")
   async register(@Body() user: CreateUserDto): Promise<CreateUserDto>{
     const result = await this.authService.registerUser(user)
