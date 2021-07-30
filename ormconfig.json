@@ -1,0 +1,10 @@
+{
+  "type": "mariadb",
+  "host": "3.37.180.63",
+  "port": 3306,
+  "username": "admin",
+  "password": "vidalog10975",
+  "database": "vidalog",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true
+}

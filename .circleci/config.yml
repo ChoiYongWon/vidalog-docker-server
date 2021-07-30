@@ -46,7 +46,10 @@ workflows:
   version: 2.1
   build:
     jobs:
-      - vidalog-backend-build
+      - vidalog-backend-build:
+          filters:
+            branches:
+              only: master
       - docker-build-and-push:
           requires:
             - vidalog-backend-build
