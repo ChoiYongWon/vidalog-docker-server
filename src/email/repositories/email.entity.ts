@@ -6,5 +6,5 @@ export class Email {
   email: string;
 
   @Column()
-  validationCode: string;
+  verificationCode: string;
 }

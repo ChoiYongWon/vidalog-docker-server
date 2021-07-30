@@ -3,6 +3,7 @@ import { UserService } from '../../user/services/user.service';
 import { CreateUserDto } from '../../user/dtos/request/createUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from '../dtos/request/LoginUser.dto';
+import * as bcrypt from "bcrypt"
 
 @Injectable()
 export class AuthService {
@@ -18,13 +19,15 @@ export class AuthService {
 
   async registerUser(user : CreateUserDto): Promise<CreateUserDto>{
     //TODO 검증
-    return this.userService.create(user)
+    const userInfo = { ...user }
+    userInfo.password = await bcrypt.hash(user.password, 10)
+    return this.userService.create(userInfo)
   }
 
   //유저 정보가 유효한지 확인
   async validateUser(user: LoginUserDto) {
     const userInfo = await this.userService.findOne(user.id)
-    if(userInfo && userInfo.password===user.password){
+    if(userInfo && await bcrypt.compare(user.password, userInfo.password)){
       const {password, ...result} = user
       return result
     }else{

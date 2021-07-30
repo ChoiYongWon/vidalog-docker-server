@@ -9,7 +9,7 @@ import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), AuthModule, UserModule, EmailModule],
-  controllers: [AppController, EmailController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

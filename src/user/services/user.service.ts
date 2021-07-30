@@ -23,7 +23,6 @@ export class UserService {
 
   async findOne(id : string) {
     const result = await this.userRepository.findOne(id)
-    console.log("findOne",result)
     return result
   }
 

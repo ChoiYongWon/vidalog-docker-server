@@ -26,7 +26,7 @@ describe('EmailService', () => {
 
   it('이메일_인증코드_발급', async () => {
     emailRepository.save.mockResolvedValue(true)
-    const result = await service.getValidationCode("yongwon0824@naver.com")
+    const result = await service.getVerificationCode("yongwon0824@naver.com")
     expect(result).toHaveLength(6);
     expect(result).toBeInstanceOf(String)
   });
