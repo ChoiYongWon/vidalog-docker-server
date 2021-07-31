@@ -26,12 +26,14 @@ jobs:
       - image: cimg/node:12.16
     working_directory: ~/vidalog
     steps:
+      - run: ls
       - checkout
       - setup_remote_docker:
           version: 19.03.13
-          
+      - run: ls
       - attach_workspace:
           at: ~/vidalog
+      - run: ls
       - run: |
           docker build -t yongwon0824/vidalog-backend:latest .
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
