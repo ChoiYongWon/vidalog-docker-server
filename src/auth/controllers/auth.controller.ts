@@ -7,6 +7,7 @@ import { LoginUserDto } from '../dtos/request/LoginUser.dto';
 import { IdValidationResponseDto } from '../dtos/response/IdValidationResponse.dto';
 import { RefreshTokenResponseDto } from '../dtos/response/RefreshTokenResponse.dto';
 import { RefreshTokenRequestDto } from '../dtos/request/RefreshTokenRequest.dto';
+import { TokenValidationResponseDto } from '../dtos/response/TokenValidationResponse.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -52,5 +53,12 @@ export class AuthController {
   async getRefreshToken(@Body() body: RefreshTokenRequestDto, @Headers() header): Promise<RefreshTokenResponseDto>{
     this.logger.log("refreshToken 요청")
     return await this.authService.refreshAccessToken(header["authorization"], body.refresh_token)
+  }
+
+  @Get("isATValid")
+  async getATValidation(@Headers() header): Promise<TokenValidationResponseDto>{
+    this.logger.log("isATValid 요청")
+    const token = header["authorization"].split(" ")[1]
+    return await this.authService.isTokenValid(token)
   }
 }

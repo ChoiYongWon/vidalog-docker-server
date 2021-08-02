@@ -4,12 +4,13 @@ import { CreateUserDto } from '../../user/dtos/request/createUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from '../dtos/request/LoginUser.dto';
 import * as bcrypt from "bcrypt"
-import { clientInfo, refreshTokenConfig } from '../constants/jwt';
-import exp from 'constants';
+import { accessTokenConfig, clientInfo, refreshTokenConfig } from '../constants/jwt';
 import { RefreshTokenExpiredException } from '../exceptions/RefreshTokenExpired.exception';
 import { RefreshTokenResponseDto } from '../dtos/response/RefreshTokenResponse.dto';
 import { LoginResponseDto } from '../dtos/response/LoginResponse.dto';
 import { ClientInfoWrongException } from '../exceptions/ClientInfoWrong.exception';
+import { AccessTokenExpiredException } from '../exceptions/AccessTokenExpired.exception';
+import { TokenValidationResponseDto } from '../dtos/response/TokenValidationResponse.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,20 @@ export class AuthService {
 
   async isValidId(id : string): Promise<boolean> {
     return !(await this.userService.isUserExist(id))
+  }
+
+  async isTokenValid(accessToken: string): Promise<TokenValidationResponseDto>{
+    try{
+      this.jwtService.verify(accessToken, {
+        secret : accessTokenConfig.secret
+      })
+      return {
+        valid: true
+      }
+    }catch(e){
+      console.log(e)
+      throw new AccessTokenExpiredException()
+    }
   }
 
   async registerUser(user : CreateUserDto): Promise<CreateUserDto>{
@@ -55,12 +70,14 @@ export class AuthService {
   }
 
   async assignAccessToken(userId: string):Promise<{access_token: string}>{
-    const { password, ...rest } = await this.userService.findOne(userId)
+    const { password, refreshToken,  ...rest } = await this.userService.findOne(userId)
     const access_payload = {
       ...rest
     }
     return {
-      access_token : this.jwtService.sign(access_payload)
+      access_token : this.jwtService.sign(access_payload, {
+        secret: accessTokenConfig.secret
+      })
     }
   }
 
