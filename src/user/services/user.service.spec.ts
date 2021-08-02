@@ -30,10 +30,6 @@ describe('UserService', () => {
     )
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   it("데이터베이스_닉네임_여부_조회_없는_경우", async ()=>{
     userRepository.count.mockResolvedValue(false)
     const result = await service.isUserExist("dyddnjs")
