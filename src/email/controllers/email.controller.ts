@@ -1,10 +1,9 @@
 import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
 import { Public } from '../../lib/decorators/public';
 import { EmailService } from '../services/email.service';
-import { VerificationCodeResponseDto } from '../dtos/response/VerificationCodeResponse.dto';
 import { EmailValidResponseDto } from '../dtos/response/EmailValidResponse.dto';
-import { EmailAlreadyRegisterException } from './exceptions/EmailAlreadyRegister.exception';
-import { EmailDidNotSendException } from './exceptions/EmailDidNotSend.exception';
+import { EmailAlreadyRegisterException } from '../exceptions/EmailAlreadyRegister.exception';
+import { EmailDidNotSendException } from '../exceptions/EmailDidNotSend.exception';
 import { VerificationCodeRequestDto } from '../dtos/request/VerificationCodeRequest.dto';
 import { VerifyCodeRequestDto } from '../dtos/request/VerifyCodeRequest.dto';
 import { VerifyCodeResponseDto } from '../dtos/response/VerifyCodeResponse.dto';

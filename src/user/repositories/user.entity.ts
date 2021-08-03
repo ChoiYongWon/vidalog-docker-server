@@ -18,4 +18,7 @@ export class User {
   @Column()
   role: Role;
 
+  @Column()
+  refreshToken?: string
+
 }

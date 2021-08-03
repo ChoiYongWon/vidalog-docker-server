@@ -1,3 +1,14 @@
-export const jwtConstants = {
+
+export const clientInfo = {
+  id : "89C2FDEDFACE1491FBA4899445B53A223FCA8D4D93B4894BD894F002BB238F96",
+  secret : "000258B7EE77B0DD1CF9B8991718012F539F748D2A5A43C3228FE05596FA7428"
+}
+
+export const accessTokenConfig = {
   secret: 'qlekffhrm'
+}
+
+export const refreshTokenConfig = {
+  secret : "85B7E078C3CA89F61496C4428804835E9BE586134AE91B75B2035C6D8C47EA3B",
+  expiresIn : "14 days"
 }

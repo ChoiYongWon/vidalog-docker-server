@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Logger, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Logger, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { CreateUserDto } from '../../user/dtos/service/createUser.dto';
 import { LoginAuthGuard } from '../guards/login-auth.guard';
 import { Public } from 'src/lib/decorators/public';
-import { LoginUserDto } from '../dtos/request/LoginUser.dto';
 import { IdValidationResponseDto } from '../dtos/response/IdValidationResponse.dto';
 import { RegisterRequestDto } from '../dtos/request/RegisterRequest.dto';
+import { RefreshTokenResponseDto } from '../dtos/response/RefreshTokenResponse.dto';
+import { RefreshTokenRequestDto } from '../dtos/request/RefreshTokenRequest.dto';
+import { TokenValidationResponseDto } from '../dtos/response/TokenValidationResponse.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -32,6 +33,12 @@ export class AuthController {
     return await this.authService.login(req.user)
   }
 
+  @Post("logout")
+  async logout(@Request() req){
+    this.logger.log("logout 요청 id : "+req.user.id)
+    return await this.authService.logout(req.user)
+  }
+
   @Public()
   @Post("register")
   async register(@Body() user: RegisterRequestDto){
@@ -39,5 +46,19 @@ export class AuthController {
     this.logger.log("register 요청 id : "+user.id)
     await this.authService.registerUser(user)
     return
+  }
+
+  @Public()
+  @Post("refreshToken")
+  async getRefreshToken(@Body() body: RefreshTokenRequestDto, @Headers() header): Promise<RefreshTokenResponseDto>{
+    this.logger.log("refreshToken 요청")
+    return await this.authService.refreshAccessToken(header["authorization"], body.refresh_token)
+  }
+
+  @Get("isATValid")
+  async getATValidation(@Headers() header): Promise<TokenValidationResponseDto>{
+    this.logger.log("isATValid 요청")
+    const token = header["authorization"].split(" ")[1]
+    return await this.authService.isTokenValid(token)
   }
 }
