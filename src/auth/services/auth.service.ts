@@ -4,7 +4,6 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from '../dtos/request/LoginUser.dto';
 import * as bcrypt from "bcrypt"
 import { RegisterRequestDto } from '../dtos/request/RegisterRequest.dto';
-import { Role } from '../../user/enum/Role.enum';
 import { accessTokenConfig, clientInfo, refreshTokenConfig } from '../constants/jwt';
 import { RefreshTokenExpiredException } from '../exceptions/RefreshTokenExpired.exception';
 import { RefreshTokenResponseDto } from '../dtos/response/RefreshTokenResponse.dto';
@@ -41,7 +40,7 @@ export class AuthService {
 
   async registerUser(user : RegisterRequestDto){
     //TODO 검증
-    const userInfo = { ...user , role: Role.USER}
+    const userInfo = { ...user }
     userInfo.password = await bcrypt.hash(user.password, 10)
     return await this.userService.create(userInfo)
   }

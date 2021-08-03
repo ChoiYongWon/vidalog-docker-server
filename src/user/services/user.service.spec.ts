@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../repositories/user.entity';
-import { CreateUserDto } from '../dtos/service/createUser.dto';
 import { Repository } from 'typeorm';
+import { RegisterRequestDto } from '../../auth/dtos/request/RegisterRequest.dto';
 
 const mockRepository = ()=>({
   count : jest.fn(),
@@ -43,7 +43,7 @@ describe('UserService', () => {
   })
 
   it("데이터베이스_유저_생성", async ()=>{
-    const user : CreateUserDto = {
+    const user : RegisterRequestDto = {
       id : "dyddnjs",
       password : "1234",
       email : "yongwon@naver.com",

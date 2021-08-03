@@ -15,10 +15,10 @@ export class User {
   @Column()
   nickname: string;
 
-  @Column()
+  @Column({default: Role.USER})
   role: Role;
 
-  @Column()
+  @Column({nullable: true})
   refreshToken?: string
 
 }
