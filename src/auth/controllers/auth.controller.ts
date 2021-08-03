@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Logger, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { CreateUserDto } from '../../user/dtos/request/createUser.dto';
+import { CreateUserDto } from '../../user/dtos/service/createUser.dto';
 import { LoginAuthGuard } from '../guards/login-auth.guard';
 import { Public } from 'src/lib/decorators/public';
 import { LoginUserDto } from '../dtos/request/LoginUser.dto';
 import { IdValidationResponseDto } from '../dtos/response/IdValidationResponse.dto';
+import { RegisterRequestDto } from '../dtos/request/RegisterRequest.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -33,9 +34,10 @@ export class AuthController {
 
   @Public()
   @Post("register")
-  async register(@Body() user: CreateUserDto): Promise<CreateUserDto>{
+  async register(@Body() user: RegisterRequestDto){
+    //TODO RegisterFailed Exception 만들기
     this.logger.log("register 요청 id : "+user.id)
-    const result = await this.authService.registerUser(user)
-    return result
+    await this.authService.registerUser(user)
+    return
   }
 }

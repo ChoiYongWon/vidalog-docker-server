@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Role } from '../enum/Role.enum';
 
 @Entity()
 export class User {
@@ -13,5 +14,8 @@ export class User {
 
   @Column()
   nickname: string;
+
+  @Column()
+  role: Role;
 
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../../user/services/user.service';
-import { CreateUserDto } from '../../user/dtos/request/createUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from '../dtos/request/LoginUser.dto';
 import * as bcrypt from "bcrypt"
+import { RegisterRequestDto } from '../dtos/request/RegisterRequest.dto';
+import { Role } from '../../user/enum/Role.enum';
 
 @Injectable()
 export class AuthService {
@@ -17,11 +18,11 @@ export class AuthService {
     return !(await this.userService.isUserExist(id))
   }
 
-  async registerUser(user : CreateUserDto): Promise<CreateUserDto>{
+  async registerUser(user : RegisterRequestDto){
     //TODO 검증
-    const userInfo = { ...user }
+    const userInfo = { ...user , role: Role.USER}
     userInfo.password = await bcrypt.hash(user.password, 10)
-    return this.userService.create(userInfo)
+    return await this.userService.create(userInfo)
   }
 
   //유저 정보가 유효한지 확인

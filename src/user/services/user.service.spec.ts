@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../repositories/user.entity';
-import { CreateUserDto } from '../dtos/request/createUser.dto';
+import { CreateUserDto } from '../dtos/service/createUser.dto';
 import { Repository } from 'typeorm';
 
 const mockRepository = ()=>({
