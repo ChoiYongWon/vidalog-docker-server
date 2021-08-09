@@ -41,6 +41,7 @@ export class UserService {
 
   async expireRefreshToken(userId: string){
     const user = await this.userRepository.findOne(userId)
+    if(!user) return
     return await this.userRepository.save({
       ...user,
       refreshToken: null
