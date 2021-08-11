@@ -41,7 +41,7 @@ export class AuthService {
 
   async registerUser(user : RegisterRequestDto){
     //TODO 검증
-    const userInfo = { ...user }
+    const userInfo = { ...user}
     userInfo.password = await bcrypt.hash(user.password, 10)
     return await this.userService.create(userInfo)
   }
@@ -65,9 +65,9 @@ export class AuthService {
     }
   }
 
-  async logout(userId: string){
-    await this.userService.expireRefreshToken(userId)
-    return
+    async logout(userId: string, refreshToken: string){
+      await this.userService.expireRefreshToken(userId, refreshToken)
+      return
   }
 
   async assignAccessToken(userId: string):Promise<{access_token: string}>{
@@ -83,20 +83,14 @@ export class AuthService {
   }
 
   async assignRefreshToken(userId: string):Promise<{refresh_token: string}>{
-    const userInfo = await this.userService.findOne(userId)
-    const payload = this.jwtService.decode(userInfo.refreshToken)
-    //만료되었으면
-    if ((payload["exp"] - (new Date().getTime() / 1000)) <= (60 * 60 * 24)) {
-      const newRefreshToken = this.jwtService.sign({ id: userId }, {
-        secret: refreshTokenConfig.secret,
-        expiresIn: refreshTokenConfig.expiresIn
-      })
-      await this.userService.saveRefreshToken(userId, newRefreshToken)
-      return {
-        refresh_token: newRefreshToken
-      }
-    }
-    else return { refresh_token : userInfo.refreshToken}
+
+    const newRefreshToken = this.jwtService.sign({ id: userId }, {
+      secret: refreshTokenConfig.secret,
+      expiresIn: refreshTokenConfig.expiresIn
+    })
+    await this.userService.saveRefreshToken(userId, newRefreshToken)
+
+    return { refresh_token : newRefreshToken }
   }
 
 
@@ -109,23 +103,33 @@ export class AuthService {
     //Authorization client id, secret 검사
     if(id !== clientInfo.id || secret !== clientInfo.secret)
       throw new ClientInfoWrongException()
-    //RefreshToken 존재하는지 검사
-    const tokenInfo = await this.userService.findByRefreshToken(refreshToken)
-    if(!tokenInfo)
-      throw new RefreshTokenExpiredException()
 
     try {
       //RefreshToken이 유효한지 검사
-      this.jwtService.verify(tokenInfo.refreshToken, {
+      const payload = this.jwtService.verify(refreshToken, {
         secret: refreshTokenConfig.secret
       })
 
-      const payload = this.jwtService.decode(tokenInfo.refreshToken) //secret설정안했는데 왜 되지...?
+      const user = await this.userService.findOne(payload["id"])
+      if(!user.refreshToken.includes(refreshToken))
+        throw new RefreshTokenExpiredException()
+
+
+      if ((payload["exp"] - (new Date().getTime() / 1000)) <= (60 * 60 * 24)) {
+        //만료 시키고 재발급
+        await this.userService.expireRefreshToken(user.id, refreshToken)
+        return {
+          ...await this.assignAccessToken(payload["id"]),
+          ...await this.assignRefreshToken(payload["id"])
+        }
+
+      }
 
       return {
         ...await this.assignAccessToken(payload["id"]),
-        ...await this.assignRefreshToken(payload["id"])
+        refresh_token : refreshToken
       }
+
     }catch(e){
       throw new RefreshTokenExpiredException()
     }

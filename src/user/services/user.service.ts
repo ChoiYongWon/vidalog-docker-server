@@ -3,14 +3,17 @@ import { Repository } from 'typeorm';
 import { User } from '../repositories/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterRequestDto } from '../../auth/dtos/request/RegisterRequest.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
 
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>
-  ) {
+    private userRepository: Repository<User>,
+    private jwtService: JwtService
+
+) {
   }
 
   async create(user: RegisterRequestDto){
@@ -33,25 +36,24 @@ export class UserService {
 
   async saveRefreshToken(userId: string, refreshToken: string){
     const user = await this.userRepository.findOne(userId)
+    let refreshTokens = [...user.refreshToken]
+    refreshTokens = refreshTokens.filter((token)=>(this.jwtService.decode(token)["exp"] - (new Date().getTime()/1000)) > 0)
+    refreshTokens = [...refreshTokens, refreshToken]
     return await this.userRepository.save({
       ...user,
-      refreshToken: refreshToken
+      refreshToken: [...refreshTokens]
     })
   }
 
-  async expireRefreshToken(userId: string){
+  async expireRefreshToken(userId: string, refreshToken: string){
     const user = await this.userRepository.findOne(userId)
     if(!user) return
     return await this.userRepository.save({
       ...user,
-      refreshToken: null
+      refreshToken: user.refreshToken.filter((token)=>token!==refreshToken)
     })
   }
 
-  async findByRefreshToken(refreshToken: string){
-    const result = await this.userRepository.findOne({refreshToken : refreshToken})
-    return result
-  }
 
   async isUserExist(id: string):Promise<boolean>{
     const userCount = await this.userRepository.count({

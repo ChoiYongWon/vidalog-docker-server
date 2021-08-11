@@ -1,6 +1,6 @@
 {
   "type": "mariadb",
-  "host": "vidalog_db",
+  "host": "54.180.166.3",
   "port": 3306,
   "username": "root",
   "password": "vidalog10975",

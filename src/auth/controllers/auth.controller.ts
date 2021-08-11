@@ -7,6 +7,7 @@ import { RegisterRequestDto } from '../dtos/request/RegisterRequest.dto';
 import { RefreshTokenResponseDto } from '../dtos/response/RefreshTokenResponse.dto';
 import { RefreshTokenRequestDto } from '../dtos/request/RefreshTokenRequest.dto';
 import { TokenValidationResponseDto } from '../dtos/response/TokenValidationResponse.dto';
+import { LogoutRequestDto } from '../dtos/request/LogoutRequest.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -34,9 +35,9 @@ export class AuthController {
   }
 
   @Post("logout")
-  async logout(@Request() req){
+  async logout(@Request() req, @Body() body:LogoutRequestDto){
     this.logger.log("logout 요청 id : "+req.user.id)
-    return await this.authService.logout(req.user)
+    return await this.authService.logout(req.user.id, body.refreshToken)
   }
 
   @Public()
