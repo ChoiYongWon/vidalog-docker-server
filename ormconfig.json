@@ -6,6 +6,5 @@
   "password": "vidalog10975",
   "database": "vidalog",
   "entities": ["dist/**/*.entity{.ts,.js}"],
-  "timezone": "+09:00",
   "synchronize": true
 }

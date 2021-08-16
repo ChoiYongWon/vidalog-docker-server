@@ -5,6 +5,7 @@ import { UploadBadRequestException } from '../exceptions/UploadBadRequest.except
 import { UploadPostRequestDto } from '../dtos/request/UploadPostRequest.dto';
 import { GetPostByMonthResponseDto } from '../dtos/response/GetPostByMonthResponse.dto';
 import { GetPostResponseDto } from '../dtos/response/GetPostResponse.dto';
+import { GetPostedDateByYearFromNowDto } from '../dtos/response/GetPostedDateByYearFromNow.dto';
 
 @Controller('post')
 export class PostController {
@@ -22,6 +23,11 @@ export class PostController {
   @Get('getPostByMonth')
   async getPostByMonth(@Request() req, @Query("date") date: Date) : Promise<GetPostByMonthResponseDto[]>{
     return await this.postService.getPostByMonth(req.user.id, date)
+  }
+
+  @Get('getPostedDateByYearFromNow')
+  async getPostedDateByYearFromNow(@Request() req): Promise<GetPostedDateByYearFromNowDto>{
+    return await this.postService.getPostedDateByYearFromNow(req.user.id)
   }
 
   @Post('uploadPost')

@@ -24,7 +24,10 @@ export class PostService {
     nextDate.setMonth(nextDate.getMonth() + 1); nextDate.setDate(nextDate.getDate() - 1)
     const res = await this.postRepository.find({ user: userId, date: Between(date, nextDate) })
     if(!res) throw new PostNotFoundException()
-    const result = res.map((data)=>({ date: data.date.toLocaleDateString().split("/").join("-"), imgUrl: data.imageUrls[0] }))
+    const result = res.map((data)=>{
+      const date = data.date.toLocaleDateString().split("/")
+      return { date: `${date[2]}-${date[0]}-${date[1]}`, imgUrl: data.imageUrls[0] }
+    })
     return result
   }
 
@@ -32,7 +35,21 @@ export class PostService {
   async getPost(userId:string, date:Date){
     const result = await this.postRepository.findOne({ user: userId, date: date })
     if(!result) throw new PostNotFoundException()
-    return {content: result.content, date: result.date.toLocaleDateString().split("/").join("-"),location:result.location, imageUrls: result.imageUrls}
+    const dateFilter = result.date.toLocaleDateString().split("/")
+    return {content: result.content, date: `${dateFilter[2]}-${dateFilter[0]}-${dateFilter[1]}`,location:result.location, imageUrls: result.imageUrls}
+  }
+
+  async getPostedDateByYearFromNow(userId:string){
+    const prevDate = new Date()
+    //한달 뒤로 날짜 설정
+    prevDate.setFullYear(prevDate.getFullYear() - 1); prevDate.setDate(prevDate.getDate() - 1)
+    const res = await this.postRepository.find({ user: userId, date: Between(prevDate, new Date()) })
+    return {
+      postedDate: res.map((data)=>{
+        const date = data.date.toLocaleDateString().split("/")
+        return `${date[2]}-${date[0]}-${date[1]}`
+      })
+    }
   }
 
   //일기 업로드
