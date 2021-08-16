@@ -15,6 +15,9 @@ export class Post{
   @Column("simple-array", {default: ""})
   imageUrls: string[];
 
+  @Column()
+  location: string;
+
   @ManyToOne(type=>User, post=>post.id)
   user: string;
 }

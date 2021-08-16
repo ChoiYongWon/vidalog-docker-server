@@ -32,7 +32,7 @@ export class PostService {
   async getPost(userId:string, date:Date){
     const result = await this.postRepository.findOne({ user: userId, date: date })
     if(!result) throw new PostNotFoundException()
-    return {content: result.content, date: result.date.toLocaleDateString().split("/").join("-"), imageUrls: result.imageUrls}
+    return {content: result.content, date: result.date.toLocaleDateString().split("/").join("-"),location:result.location, imageUrls: result.imageUrls}
   }
 
   //일기 업로드
@@ -43,6 +43,7 @@ export class PostService {
         imageUrls: imageUrls,
         content: postInfo.content,
         date: postInfo.date,
+        location: postInfo.location,
         id: uuidv4(),
         user: postInfo.userId
       }

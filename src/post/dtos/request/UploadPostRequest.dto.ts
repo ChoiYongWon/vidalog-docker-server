@@ -11,5 +11,8 @@ export class UploadPostRequestDto {
   date: Date
 
   @IsString()
+  location: string
+
+  @IsString()
   userId: string
 }
