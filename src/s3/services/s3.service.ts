@@ -23,7 +23,7 @@ export class S3Service {
         Bucket: "vidalog-img-storage/postImage",
         ACL: "public-read",
         Body: Buffer.from(files[i].buffer, "binary"),
-        Key: uuidv4(),
+        Key: `${uuidv4()}.${files[i].originalname.split(".").reverse()[0]}`,
       }
       const url = await this.s3.upload(params).promise()
       imageUrl[i] = url.Location
