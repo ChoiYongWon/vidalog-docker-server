@@ -56,7 +56,7 @@ export class PostService {
   //일기 업로드
   async uploadPost(postInfo: UploadPostRequestDto){
     try{
-      const localPost = await this.postRepository.findOne({date: postInfo.date})
+      const localPost = await this.postRepository.findOne({ user: postInfo.userId, date: postInfo.date})
       if(localPost) throw Error()
       const imageUrls = await this.s3Service.uploadImageToS3(postInfo.imageFiles)
       const post: Post = {
