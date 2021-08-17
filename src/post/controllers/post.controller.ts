@@ -6,6 +6,7 @@ import { UploadPostRequestDto } from '../dtos/request/UploadPostRequest.dto';
 import { GetPostByMonthResponseDto } from '../dtos/response/GetPostByMonthResponse.dto';
 import { GetPostResponseDto } from '../dtos/response/GetPostResponse.dto';
 import { GetPostedDateByYearFromNowDto } from '../dtos/response/GetPostedDateByYearFromNow.dto';
+import { IsWrittenResponseDto } from '../dtos/response/IsWrittenResponse.dto';
 
 @Controller('post')
 export class PostController {
@@ -13,6 +14,11 @@ export class PostController {
   constructor(
     private postService: PostService
   ) {
+  }
+
+  @Get('isWritten')
+  async isWritten(@Request() req, @Query("date") date: Date): Promise<IsWrittenResponseDto>{
+    return await this.postService.isWritten(req.user.id, date)
   }
 
   @Get('getPost')

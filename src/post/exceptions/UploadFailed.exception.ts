@@ -3,8 +3,8 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 export class UploadFailedException extends HttpException {
   constructor() {
     super({
-      status : HttpStatus.INTERNAL_SERVER_ERROR,
+      status : HttpStatus.BAD_REQUEST,
       error : "Post not uploaded"
-    }, HttpStatus.INTERNAL_SERVER_ERROR);
+    }, HttpStatus.BAD_REQUEST);
   }
 }

@@ -17,6 +17,12 @@ export class PostService {
 
   ) {}
 
+  async isWritten(userId: string, date:Date){
+    const result = await this.postRepository.findOne({ user: userId, date: date })
+    if(result) return { written : true}
+    return { written : false }
+  }
+
   //달별로 조회
   async getPostByMonth(userId: string, date:Date){
     const nextDate = new Date(date)
@@ -56,6 +62,8 @@ export class PostService {
   //일기 업로드
   async uploadPost(postInfo: UploadPostRequestDto){
     try{
+      const currentDate = new Date()
+      if(new Date(postInfo.date) > currentDate) throw Error()
       const localPost = await this.postRepository.findOne({ user: postInfo.userId, date: postInfo.date})
       if(localPost) throw Error()
       const imageUrls = await this.s3Service.uploadImageToS3(postInfo.imageFiles)
