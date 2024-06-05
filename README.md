@@ -1,73 +1,55 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Vidalog
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Introduce
+인생(vida)을 기록(log)하는 웹 서비스  
+<sup>2021. 06. 30. ~ 2021. 09. 01.</sup>   
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+GitHub 잔디 달력과 [인스타그램의 스토리 달력](https://github.com/ChoiYongWon/vidalog-serverless-client/assets/40623433/5cdba8bc-4b5b-4621-96aa-d04844bcc152)을 보면서 매우 직관적이라는 느낌을 받았습니다. 이 두 가지를 결합하여 제공하면 어떨까 하는 생각이 들어 프로젝트를 시작하게 되었습니다.
 
-## Description
+[WEBSITE](https://master.d35jqv8wcjjd06.amplifyapp.com)  
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+_해당 프로젝트는 두 가지 버전으로 나뉘며, 각 버전마다 프론트엔드(FE)와 백엔드(BE) 저장소가 존재합니다. 따라서 총 4개의 저장소가 있습니다._
 
-## Installation
+| type  | FE | BE |
+| ------------- | ------------- | ------------- |
+| vidalog-docker-xxxx  | [vidalog-docker-client](https://github.com/ChoiYongWon/vidalog-docker-client)  | [vidalog-docker-server](https://github.com/ChoiYongWon/vidalog-serverless-client) |
+| vidalog-serverless-xxxx  | [vidalog-serverless-client](https://github.com/ChoiYongWon/vidalog-serverless-client)  | [vidalog-serverless-server](https://github.com/ChoiYongWon/vidalog-serverless-server) |
 
-```bash
-$ npm install
-```
 
-## Running the app
+### 1. vidalog-docker-xxxx
+   
+   초기에 EC2에 Docker로 FE와 BE를 동시에 배포한 버전입니다.  
+   배포 자동화는 CircleCI를 통해 구축했습니다.
 
-```bash
-# development
-$ npm run start
+   ![vidalog docker 인프라](https://github.com/ChoiYongWon/vidalog-serverless-client/assets/40623433/75c29854-d7de-497b-9caf-d4b61b12c6b5)
 
-# watch mode
-$ npm run start:dev
+  
+### 2. vidalog-serverless-xxxx
+   
+   1번 방법에서 EC2의 비용이 부담되어, BE는 serverless로 aws lambda에, FE는 aws amplify로 배포한 버전입니다.
 
-# production mode
-$ npm run start:prod
-```
+   ![Slide 16_9 - 1](https://github.com/ChoiYongWon/vidalog-serverless-client/assets/40623433/a68a0b75-7237-45b5-9627-872e2e343081)
 
-## Test
+## Tech Stack
+### Frontend
+- React
+- Recoil
+- Styled-Components
 
-```bash
-# unit tests
-$ npm run test
+### Backend
+- NestJS
+- TypeORM
 
-# e2e tests
-$ npm run test:e2e
+## View
 
-# test coverage
-$ npm run test:cov
-```
+### 로그인
+![image](https://user-images.githubusercontent.com/40623433/187840675-f16c588a-0c8e-42a7-91f7-6261b4582901.png)
 
-## Support
+### 메인
+![image](https://user-images.githubusercontent.com/40623433/187840775-dead9c30-d708-4934-80f4-336a5dd68cbe.png)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### 업로드
+![image](https://user-images.githubusercontent.com/40623433/187841606-7583dab6-b139-4d27-939a-5ddf8d193da5.png)
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+### 게시물
+![image](https://user-images.githubusercontent.com/40623433/187841938-e896d517-3e0a-4836-b7d3-884c434fb262.png)
