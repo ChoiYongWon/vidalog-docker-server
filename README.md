@@ -6,7 +6,7 @@
 
 GitHub 잔디 달력과 [인스타그램의 스토리 달력](https://github.com/ChoiYongWon/vidalog-serverless-client/assets/40623433/5cdba8bc-4b5b-4621-96aa-d04844bcc152)을 보면서 매우 직관적이라는 느낌을 받았습니다. 이 두 가지를 결합하여 제공하면 어떨까 하는 생각이 들어 프로젝트를 시작하게 되었습니다.
 
-[WEBSITE](https://master.d35jqv8wcjjd06.amplifyapp.com)  
+[WEBSITE](https://master.d35jqv8wcjjd06.amplifyapp.com)  _`현재 BE는 배포되어있지 않아 정상적인 기능을 하지 않습니다. View를 참고해주세요`_   
 
 _해당 프로젝트는 두 가지 버전으로 나뉘며, 각 버전마다 프론트엔드(FE)와 백엔드(BE) 저장소가 존재합니다. 따라서 총 4개의 저장소가 있습니다._
 
