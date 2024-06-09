@@ -12,7 +12,7 @@ _해당 프로젝트는 두 가지 버전으로 나뉘며, 각 버전마다 프�
 
 | type  | FE | BE |
 | ------------- | ------------- | ------------- |
-| vidalog-docker-xxxx  | [vidalog-docker-client](https://github.com/ChoiYongWon/vidalog-docker-client)  | [vidalog-docker-server](https://github.com/ChoiYongWon/vidalog-serverless-client) |
+| vidalog-docker-xxxx  | [vidalog-docker-client](https://github.com/ChoiYongWon/vidalog-docker-client)  | [vidalog-docker-server](https://github.com/ChoiYongWon/vidalog-docker-server) |
 | vidalog-serverless-xxxx  | [vidalog-serverless-client](https://github.com/ChoiYongWon/vidalog-serverless-client)  | [vidalog-serverless-server](https://github.com/ChoiYongWon/vidalog-serverless-server) |
 
 
